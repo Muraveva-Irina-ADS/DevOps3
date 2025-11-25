@@ -1,0 +1,35 @@
+services:
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: backend_container
+    networks:
+      - app_network
+    volumes:
+      - data:/app/data
+    restart: always
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: ./Frontend/app
+      dockerfile: Dockerfile
+    container_name: frontend_container
+    depends_on:
+      - backend
+    networks:
+      - app_network
+    restart: always
+    ports:
+      - "3000:3000"
+
+volumes:
+  data:
+
+networks:
+  app_network:
+    driver: bridge
+
+name: DevOps
